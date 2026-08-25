@@ -1,0 +1,4 @@
+python-dotenv>=1.0,<2
+requests>=2.31,<3
+streamlit>=1.32,<2
+beautifulsoup4>=4.12,<5
