@@ -163,7 +163,13 @@ Restore `WRITEBACK_ENABLED=false` immediately afterward, rerun the pipeline and 
 
 ## Daily schedule
 
-`.github/workflows/daily.yml` runs daily at 12:17 UTC and on manual dispatch. It installs dependencies, runs tests, and regenerates proposals in read-only mode with `WRITEBACK_ENABLED=false`. `CRM_TOKEN` must be configured as a GitHub Actions secret. The workflow has read-only repository permissions, contains no execution step, and does not upload CRM evidence.
+`.github/workflows/daily.yml` runs daily at 12:17 UTC and on manual dispatch. It installs dependencies, runs tests, scrapes the current Bellhaven website, and regenerates proposals in read-only mode with `WRITEBACK_ENABLED=false`. `CRM_TOKEN` must be configured as a GitHub Actions secret. The workflow has read-only repository permissions, contains no execution step, and does not upload CRM evidence.
+
+GitHub-hosted Actions runners are ephemeral, so the checked-in workflow primarily demonstrates read-only daily scheduling; its local SQLite reviewer decisions do not persist across workflow runs. A production deployment should keep the decision store on durable storage, for example by running cron on a persistent host or by using an external database. On a persistent host, the corresponding daily cron entry could be:
+
+```cron
+17 12 * * * cd /opt/bellhaven-reconciliation && /opt/bellhaven-reconciliation/.venv/bin/python scraper.py && /opt/bellhaven-reconciliation/.venv/bin/python pipeline.py
+```
 
 ## Demo walkthrough
 
@@ -184,4 +190,4 @@ Restore `WRITEBACK_ENABLED=false` immediately afterward, rerun the pipeline and 
 
 ## Time spent
 
-Actual time spent: **[ACTUAL_TIME_PLACEHOLDER]**
+Actual focused time spent: **approximately 8 hours**

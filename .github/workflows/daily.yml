@@ -19,5 +19,6 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: python -m unittest -v
+      - run: python scraper.py
       - run: python pipeline.py
       - run: test -s data/proposals.csv
